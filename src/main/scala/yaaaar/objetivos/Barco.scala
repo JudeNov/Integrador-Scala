@@ -2,9 +2,9 @@ package yaaaar.objetivos
 
 import yaaaar.piratas.Pirata
 
-class Barco(capacidad: Int, var mision: Mision, var tripulantes: List[Pirata]) extends Objetivo {
+class Barco(val capacidad: Int, var mision: Mision, val tripulantes: List[Pirata]) extends Objetivo {
 
-  override def esSaqueablePor(unPirata: Pirata): Boolean = unPirata.estaPasadoDeGrog()
+  override def loPuedeSaquear(unPirata: Pirata): Boolean = unPirata.estaPasadoDeGrog()
 
   def puedeUnirse(unPirata: Pirata): Boolean = this.hayLugar() && mision.esUtil(unPirata)
 
@@ -25,18 +25,14 @@ class Barco(capacidad: Int, var mision: Mision, var tripulantes: List[Pirata]) e
 
   def eliminarInutiles(unaMision: Mision): Unit = this.modificarTripulantes(_.filter { unaMision.esUtil })
 
-  //foreach(this.eliminarSiNoSirvePara(unaMision, _)) //REVISAR QUE ESTA HORRIBLE
-
-  // def eliminarSiNoSirvePara(unaMision: Mision, unTripulante: Pirata)://TIPO = if(!unaMision.esUtil(unTripulante)) this.modificarTripulantes(-= unTripulante)
-
-  def pirataMasEbrio(): Pirata = tripulantes.maxBy(_.nivelEbriedad) //REVISAR metodo de maximo
+  def pirataMasEbrio(): Pirata = tripulantes.maxBy(_.nivelEbriedad) 
 
   def anclarEn(unaCiudad: CiudadCostera): Unit = {
     this.todosTomanGrogYGastanMonedas()
     this.perderTripulanteMasEbrioEn(unaCiudad)
   }
 
-  def todosTomanGrogYGastanMonedas(): Unit = tripulantes foreach(_.tomarUnTrago()) //REVISAR TIPO
+  def todosTomanGrogYGastanMonedas(): Unit = tripulantes.foreach(_.tomarUnTrago()) 
 
   def perderTripulanteMasEbrioEn(unaCiudad: CiudadCostera): Unit = {
     this.modificarTripulantes(_.diff(List(this.pirataMasEbrio())))
@@ -44,13 +40,10 @@ class Barco(capacidad: Int, var mision: Mision, var tripulantes: List[Pirata]) e
   }
 
   def esTemible(): Boolean = mision.puedeRealizarla(this)
-  //Para este metodo asumo que funciona como con method lookup, despues habria que revisar eso.
-
+  
   def tieneSuficienteTripulacion(): Boolean = this.tieneCantidadDeTripulantes(_ >= (capacidad * 0.9))
 
-  def tiene(unItem: Item): Boolean = tripulantes.exists { _.tiene(unItem) } //REVISAR
-
-  /*override def esVulnerableA(unBarco: Barco): Boolean = this.tieneCantidadDeTripulantes(<= unBarco.mitadDeSusTripulantes())*/
+  def tiene(unItem: Item): Boolean = tripulantes.exists { _.tiene(unItem) }
 
   override def cantidadNecesariaDeTripulantes(): Int => Boolean = this.cantidadTripulantes() / 2 >= _
 
@@ -58,7 +51,7 @@ class Barco(capacidad: Int, var mision: Mision, var tripulantes: List[Pirata]) e
 
   def cantidadDeTripulantesPasadosDeGrog(): Int = tripulantes.count { _.estaPasadoDeGrog() }
 
-  def tripulantesPasadosDeGrog(): List[Pirata] = tripulantes filter { _.estaPasadoDeGrog() }
+  def tripulantesPasadosDeGrog(): List[Pirata] = tripulantes.filter { _.estaPasadoDeGrog() }
 
   def cantidadItemsDistintosEntreTripulantesPasadosDeGrog(): Int = this.itemsDeTodosLosTripulantes().toSet.size
 

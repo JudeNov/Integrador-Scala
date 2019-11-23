@@ -4,7 +4,7 @@ import Yaaaar.Item
 import yaaaar.misiones.Mision
 import yaaaar.objetivos.{Barco, Objetivo}
 
-class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbriedad: Int, invitante: Pirata){
+case class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbriedad: Int, val invitante: Pirata){
 
   def esUtilPara(unaMision: Mision): Boolean = unaMision.esUtil(this)
 
@@ -12,6 +12,10 @@ class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbriedad:
     case elemento: Item => items.contains(elemento)
     case elemento: List[Item] => elemento.forall { items.contains }
   }
+
+  /*def tiene(unItem: Item): Boolean = items.contains(Item)
+
+  def tiene(unosItems: List(Item)): Boolean = unosItems.forall { items.contains }*/ REVISAR QUE QUEDA MEJOR
 
   def tieneCantidadDeMonedas(unCriterio: Int => Boolean): Boolean = unCriterio(cantidadMonedas)
 
@@ -34,20 +38,12 @@ class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbriedad:
 
   def puedeGastarDinero(unaCantidad: Int): Boolean = unaCantidad > cantidadMonedas
 
-  def seAnimaASaquear(unObjetivo: Objetivo): Boolean = unObjetivo.esSaqueablePor(this) && this.estaAutorizadoASaquear(unObjetivo)
+  def seAnimaASaquear(unObjetivo: Objetivo): Boolean = unObjetivo.esSaqueablePor(this)
 
   def estaAutorizadoASaquear(unObjetivo: Objetivo): Boolean = true
 
   def cantidadDeInvitadosPara(unBarco: Barco): Int = unBarco.cantidadDeInvitadosPor(this)
 
   def fueInvitadoPor(unTripulante: Pirata): Boolean = invitante == unTripulante
-
-}
-
-class PirataEspiaDeLaCorona(cantidadMonedas: Int, items: List[Item], nivelEbriedad: Int, invitante: Pirata) extends Pirata(cantidadMonedas, items, nivelEbriedad, invitante) {
-
-  override def estaPasadoDeGrog(): Boolean = false
-
-  override def estaAutorizadoASaquear(unObjetivo: Objetivo): Boolean = this.tiene("permiso de la corona")
 
 }

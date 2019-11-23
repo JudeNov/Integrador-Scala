@@ -1,8 +1,9 @@
 package yaaaar.misiones
 
+import Yaaaar.Item
 import yaaaar.piratas.Pirata
 
-class ConvertirseEnLeyenda(itemObligatorio: Item) extends Mision {
+class ConvertirseEnLeyenda(val itemObligatorio: Item) extends Mision {
 
   override def esUtil(unPirata: Pirata): Boolean = this.tieneSuficientesItems(unPirata) && unPirata.tiene(itemObligatorio)
 
