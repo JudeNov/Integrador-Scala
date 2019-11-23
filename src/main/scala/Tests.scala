@@ -6,76 +6,90 @@ import yaaaar.piratas.{Pirata, PirataEspiaDeLaCorona}
 
 class Tests extends TestCase{
 
-  var barbanegra = new Pirata(16,List("brujula","cuchillo","cuchillo","diente de oro","grogXD","grogXD","grogXD","espada","pierna","pierna"),40,null)
-  var gabriel = new Pirata(3,List("brujula","cuchillo","grogXD"),86,null)
+  var barbaNegra = new Pirata(16,List("brujula","cuchillo","cuchillo","diente de oro","grogXD","grogXD","grogXD","espada","pierna","pierna"),40,rico)
+  var gabriel = new Pirata(3,List("brujula","cuchillo","grogXD"),86,daniel)
   var daniel = new Pirata(6,List("brujula","cuchillo","diente de oro","grogXD","grogXD"),88,gabriel)
   var pedro = new Pirata(2,List("cuchillo","diente de oro"),95,daniel)
-  var quinteros= new PirataEspiaDeLaCorona(2,List("cuchillo","diente de oro","permiso"),0,null)
-  var serLeyenda1 = new ConvertirseEnLeyenda("cuhillo")
-  var barquito= new Barco(2,serLeyenda1,List(barbanegra))
-  var saqueo1 = new Saqueo(barquito)
-  var barcote= new Barco(4,saqueo1,List(pedro,daniel,gabriel))
-  var constitucion = new CiudadCostera(10)
-  var oro = new BusquedaDelTesoro()
-  var asaltoCiudad = new Saqueo(constitucion)
+  var quinteros= new PirataEspiaDeLaCorona(2,List("cuchillo","diente de oro","permiso"),85,rico)
+  var rico = new Pirata(11,List("brujula","cuchillo","cuchillo","diente de oro","grogXD","grogXD","grogXD","espada","pierna","pierna"),90,gabriel)
 
-  def meterAlBarco(){
-    barcote.agregar(barbanegra)
-    assertFalse(barcote.puedeUnirse(barbanegra))
+  var misionLeyenda= new ConvertirseEnLeyenda("cuhillo")
+  var misionSaqueo = new Saqueo(barquito)
+  var misionAsaltoCiudad = new Saqueo(constitucion)
+  var misionOro = new BusquedaDelTesoro()
+
+  var barquito = new Barco(2,misionLeyenda,List(barbaNegra))
+  var barcote = new Barco(4,misionSaqueo,List(pedro,daniel,gabriel))
+
+  var constitucion = new CiudadCostera(10)
+  
+  
+  def barbaNegraPuedeserTripulanteDelBarcote() = {
+    barcote.agregar(barbaNegra)
+    assertFalse(barcote.puedeUnirse(barbaNegra))
   }
 
-  def barquitoLeyenda(){
-    val rico = new Pirata(11,List("brujula","cuchillo","cuchillo","diente de oro","grogXD","grogXD","grogXD","espada","pierna","pierna"),90,gabriel)
+  def pedroNoEsUtilParaLaBusquedaDelTesoro() = {
+	  assertFalse(misionOro.esUtil(pedro))
+  } 
+
+  def barbaNegraPuedeSerLeyenda() = {
+	  assertTrue(misionLeyenda.esUtil(barbaNegra))
+  }
+
+  def ricoPuedeSerSaqueador() = {
+	  assertTrue(misionSaqueo.esUtil(rico))
+  } 
+
+  /* def barcoteSaquea(){
+    barcote.anclarEn(constitucion)  no entiendo que hace este test (marti)
+    assertTrue(barcote.esTemible())
+  } */
+
+  def elTotalDePiratasPasadosDeGrogEnBarcoteSon2() = {
+    gabriel.tomarUnTrago()
+    assertEquals(2,barcote.cantidadDeTripulantesPasadosDeGrog())
+  }
+
+  def elTripulanteMasInvitadorDeBarcoteEsGabriel() = {
+    assertEquals(gabriel,barcote.tripulanteMasInvitador())
+  }
+
+  def elPirataMasEbrioDelBarcoteEssPedro() = {
+    assertEquals(pedro, barcote.pirataMasEbrio())
+  }
+
+  def cuandoBarquitoAnclaEnConstitucionPierdeUnTripulante() = {
+    barquito.anclarEn(constitucion)
+    assertEquals(11, constitucion.cantidadHabitantes()) //se une un pirata a la ciudad
+  }
+
+  def barquitoEsTemible() = {
     barquito.agregar(rico)
     assertTrue(barquito.esTemible())
   }
 
-  def barcoteSaquea(){
-    barcote.anclarEn(constitucion)
-    assertTrue(barcote.esTemible())
+  def totalTripulantesPasadosDeGrogEnElBarcoteEs2() = {
+    assertEquals(2, barcote.cantidadDeTripulantesPasadosDeGrog())
   }
 
-  def pasadosDeGrog(){
-    gabriel.tomarUnTrago()
-    assertEquals(barcote.cantidadDeTripulantesPasadosDeGrog(),2)
+  def elTotalDeItemsJuntadosPorElBarquitoEs5() = {
+    val prato = new Pirata(5,List("brujula","cuchillo","diente de oro","grogXD","grogXD","llave de cofre"),91,gabriel)
+    barquito.agregar(prato)
+    assertEquals(5, barquito.cantidadItemsDistintosEntreTripulantesPasadosDeGrog())
   }
 
-  def invitoAMasGente(){
-    val rico = new Pirata(5,List("brujula","cuchillo","diente de oro","grogXD","grogXD"),90,gabriel)
-    barcote.agregar(rico)
-    assertEquals(barcote.tripulanteMasInvitador(),gabriel) //superaria a daniel en invitaciones
+  def elTripulantePasadoDeGrogMasRicoDelBarcoteEsDaniel() = {
+    assertEquals(daniel, barcote.tripulantePasadosDeGrogConMasDinero())
   }
 
-  def busquedaTesoro(){
-    barquito.cambiarMision(oro)
-    assertFalse(barcote.esTemible()) //cumple requisito de busqueda del tesoro
-  }
-
-  def pirataMasEbrio(){
-    assertEquals(barcote.pirataMasEbrio(),pedro)
-  }
-
-  def unoMenos(){
-    barquito.anclarEn(constitucion)
-    assertEquals(constitucion.cantidadHabitantes,11) //se une un pirata a la ciudad
-  }
-
-  def cantidadItemsJuntados(){
-    val prato = new Pirata(5,List("brujula","cuchillo","diente de oro","grogXD","grogXD","llave de cofre"),90,gabriel)
-    barcote.agregar(prato)
-    assertEquals(barcote.cantidadItemsDistintosEntreTripulantesPasadosDeGrog(),5)
-  }
-
-  def esAgenteEspia(){
-    for (_ <- 1 to 18) { //18 porque se aumenta en 5 el nivel de ebriedad por cada trago, 18 * 5 = 90
-      quinteros.tomarUnTrago()
-    }
+  def elAgenteEspiaQuinterosNuncaEstaPasadoDeGrog() = {
+    quinteros.tomarUnTrago()                                  
     assertFalse(quinteros.estaPasadoDeGrog())
-  }
+  } 
 
-  def noAsaltaCiudad(){
-    barcote.cambiarMision(asaltoCiudad) //por cantidad de tripulantes
-    assertFalse(barcote.esTemible())
+  def quinterosNoEstaAutorizadoASaquearElBarquito() = {
+    assertFalse(quinteros.estaAutorizadoASaquear(barquito))
   }
 
   //def esSaqueablePor
