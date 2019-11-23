@@ -1,8 +1,10 @@
 package yaaaar.objetivos
 
+import Yaaaar.Item
+import yaaaar.misiones.Mision
 import yaaaar.piratas.Pirata
 
-class Barco(val capacidad: Int, var mision: Mision, val tripulantes: List[Pirata]) extends Objetivo {
+class Barco(val capacidad: Int, var mision: Mision, var tripulantes: List[Pirata]) extends Objetivo {
 
   override def loPuedeSaquear(unPirata: Pirata): Boolean = unPirata.estaPasadoDeGrog()
 
