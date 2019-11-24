@@ -15,7 +15,7 @@ case class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbri
 
   /*def tiene(unItem: Item): Boolean = items.contains(Item)
 
-  def tiene(unosItems: List(Item)): Boolean = unosItems.forall { items.contains }*/ REVISAR QUE QUEDA MEJOR
+  def tiene(unosItems: List(Item)): Boolean = unosItems.forall { items.contains }*/
 
   def tieneCantidadDeMonedas(unCriterio: Int => Boolean): Boolean = unCriterio(cantidadMonedas)
 

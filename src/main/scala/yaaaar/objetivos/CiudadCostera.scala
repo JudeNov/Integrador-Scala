@@ -8,6 +8,8 @@ class CiudadCostera(var cantidadHabitantes: Int) extends Objetivo {
 
   def agregarUnHabitante(): Unit = cantidadHabitantes += 1
 
+  def cuantosHabitantes(): Unit = cantidadHabitantes
+
   override def cantidadNecesariaDeTripulantes(): Int => Boolean = _ >= (cantidadHabitantes * 0.4)
 
   override def cumpleRequisitos(unBarco: Barco): Boolean = unBarco.estanTodosPasadosDeGrog()

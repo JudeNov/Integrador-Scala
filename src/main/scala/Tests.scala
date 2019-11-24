@@ -7,11 +7,11 @@ import yaaaar.piratas.{Pirata, PirataEspiaDeLaCorona}
 class Tests extends TestCase{
 
   var barbaNegra = new Pirata(16,List("brujula","cuchillo","cuchillo","diente de oro","grogXD","grogXD","grogXD","espada","pierna","pierna"),40,rico)
-  var gabriel = new Pirata(3,List("brujula","cuchillo","grogXD"),86,daniel)
-  var daniel = new Pirata(6,List("brujula","cuchillo","diente de oro","grogXD","grogXD"),88,gabriel)
-  var pedro = new Pirata(2,List("cuchillo","diente de oro"),95,daniel)
-  var quinteros= new PirataEspiaDeLaCorona(2,List("cuchillo","diente de oro","permiso"),85,rico)
-  var rico = new Pirata(11,List("brujula","cuchillo","cuchillo","diente de oro","grogXD","grogXD","grogXD","espada","pierna","pierna"),90,gabriel)
+  var gabriel = new Pirata(3,List("brujula","cuchillo","grogXD"),86,invitante=daniel)
+  var daniel = new Pirata(6,List("brujula","cuchillo","diente de oro","grogXD","grogXD"),88,invitante=gabriel)
+  var pedro = new Pirata(2,List("cuchillo","diente de oro"),95,invitante=daniel)
+  var quinteros= new PirataEspiaDeLaCorona(2,List("cuchillo","diente de oro","permiso"),85,invitante=rico)
+  var rico = new Pirata(11,List("brujula","cuchillo","cuchillo","diente de oro","grogXD","grogXD","grogXD","espada","pierna","pierna"),90,invitante=gabriel)
 
   var misionLeyenda= new ConvertirseEnLeyenda("cuhillo")
   var misionSaqueo = new Saqueo(barquito)
@@ -61,7 +61,7 @@ class Tests extends TestCase{
 
   def cuandoBarquitoAnclaEnConstitucionPierdeUnTripulante() = {
     barquito.anclarEn(constitucion)
-    assertEquals(11, constitucion.cantidadHabitantes()) //se une un pirata a la ciudad
+    assertEquals(11, constitucion.cuantosHabitantes()) //se une un pirata a la ciudad
   }
 
   def barquitoEsTemible() = {
