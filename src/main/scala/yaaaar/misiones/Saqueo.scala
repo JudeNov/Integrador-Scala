@@ -3,11 +3,11 @@ package yaaaar.misiones
 import yaaaar.objetivos.{Barco, Objetivo}
 import yaaaar.piratas.Pirata
 
-class Saqueo(val objetivo: Objetivo) extends Mision {
+case class Saqueo(val objetivo: Objetivo) extends Mision {
 
   override def esUtil(unPirata: Pirata): Boolean = unPirata.tieneCantidadDeMonedas(_ <= Saqueo.cantidadMaxima()) && objetivo.esSaqueablePor(unPirata)
 
-  override def cumpleRequisitoDeLaMision(unBarco: Barco): Boolean = objetivo.esVulnerableA(unBarco)
+  //override def cumpleRequisitoDeLaMision(unBarco: Barco): Boolean = objetivo.esVulnerableA(unBarco)
 
 }
 

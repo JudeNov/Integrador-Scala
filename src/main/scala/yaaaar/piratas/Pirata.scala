@@ -4,7 +4,7 @@ import Yaaaar.Item
 import yaaaar.misiones.Mision
 import yaaaar.objetivos.{Barco, Objetivo}
 
-case class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbriedad: Int, val invitante: Pirata){
+class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbriedad: Int, val invitante: Pirata){
 
   def esUtilPara(unaMision: Mision): Boolean = unaMision.esUtil(this)
 
@@ -45,5 +45,7 @@ case class Pirata(var cantidadMonedas: Int, val items: List[Item], var nivelEbri
   def cantidadDeInvitadosPara(unBarco: Barco): Int = unBarco.cantidadDeInvitadosPor(this)
 
   def fueInvitadoPor(unTripulante: Pirata): Boolean = invitante == unTripulante
+
+  override def estaAutorizadoASaquear(): Boolean = true
 
 }
